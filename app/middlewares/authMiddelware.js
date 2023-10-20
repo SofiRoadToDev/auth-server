@@ -13,10 +13,12 @@ const authMiddelware=async(req,res,next)=>{
             jwt.verify(token,SECRET,(err,user)=>{
                 if(err){
                     res.status(403).json({error:err})
-                } 
-                console.log(`user in token: ${user}`);                 
-                req.user=user
-                next()
+                } else{
+                    console.log(`user in token: ${user}`);                 
+                    req.user=user
+                    next()
+                }
+                
            })   
         }
     }
