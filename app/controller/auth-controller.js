@@ -1,6 +1,6 @@
 const db=require('../../models')
 const bcrypt=require('bcrypt')
-
+const {genToken}=require('../middlewares/authMiddelware')
 
  const registerController=async(req,res)=>{
     const{username,email,password}=req.body
@@ -55,7 +55,8 @@ const loginController=async(req,res)=>{
         })
         if(user){
             if(await bcrypt.compare(password,user.password)){
-                res.status(200).json({res:'User logged..'})
+                let token=await genToken(username)
+                res.status(200).json({token:token})
             }else{
                 res.status(401).json({res:'Wrong  password'})
             }
