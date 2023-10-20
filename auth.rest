@@ -23,4 +23,4 @@ content-type: application/json
 
 ###
 GET http://localhost:3001/auth/test
-authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic29maTEyMzQiLCJpYXQiOjE2OTc4MTM3MDR9.luXGMfn5q1WOl7iLqsKvubA24bqqceh0KzGR-c0lZGE'
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoic29maTEyMzQiLCJpYXQiOjE2OTc4MTUzMDV9.jaTk6WFikMyLqxK4zomoO3_fBwJFCNhq9YDOsjbZqq0
