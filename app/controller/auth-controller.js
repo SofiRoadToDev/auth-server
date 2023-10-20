@@ -2,6 +2,7 @@ const db=require('../../models')
 const bcrypt=require('bcrypt')
 const {genToken}=require('../middlewares/authMiddelware')
 
+
  const registerController=async(req,res)=>{
     const{username,email,password}=req.body
 
@@ -81,10 +82,16 @@ const testRootEndPoint=(req,res)=>{
 }
 
 
+const testAuth=(req,res)=>{
+    res.json({msg:'acess has been  granted'})
+}
+
+
 
 module.exports={
     registerController,
     testRootEndPoint,
     loginController,
-    refreshTokenController
+    refreshTokenController,
+    testAuth
 }

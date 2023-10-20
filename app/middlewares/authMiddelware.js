@@ -2,6 +2,7 @@
 const jwt=require('jsonwebtoken')
 
 const SECRET='75dd04d5c47942d551b7387c5bb0a2249332add4530921de0dc0e61d13cb2598fd82370e1fa43ffd1c9d679fe933a8920a144202a8b2a1de01805ca6b7b0b779'
+
 const authMiddelware=async(req,res,next)=>{
     const headers=req.headers['authorization']   
     if(!headers){        
@@ -9,15 +10,16 @@ const authMiddelware=async(req,res,next)=>{
     }else{
         const token=headers.split(' ')[1]
         if(token){
-           jwt.verify(token,SECRET,(err,user)=>{
-                if(error)
-                    res.status(403)
+            jwt.verify(token,SECRET,(err,user)=>{
+                if(err){
+                    res.status(403).json({error:err})
+                } 
+                console.log(`user in token: ${user}`);                 
                 req.user=user
                 next()
            })   
         }
     }
-    res.json({token:accessToken})
 }
 
 
@@ -30,3 +32,17 @@ const genToken=async(username)=>{
 
 
 module.exports={authMiddelware,genToken}
+
+
+/**
+ * FOR THE CLIENT
+ * const headers = {
+  'Authorization': `Bearer ${authToken}`,
+};
+
+fetch('/protected/resource', {
+  method: 'GET',
+  headers: headers,
+})
+ * 
+ */
