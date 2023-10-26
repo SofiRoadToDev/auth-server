@@ -18,6 +18,12 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      isValid:{
+        type:Sequelize.BOOLEAN
+      },
+      uniqieString:{
+        type:Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

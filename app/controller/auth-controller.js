@@ -1,10 +1,16 @@
 const db=require('../../models')
 const bcrypt=require('bcrypt')
-const {genToken}=require('../middlewares/authMiddelware')
-
+const {genToken}=require('../utils/tokenGen')
+const sendMail=require('../utils/mailer')
 
  const registerController=async(req,res)=>{
     const{username,email,password}=req.body
+    const user={
+        username,
+        email
+    }
+    const uniqueString=await genToken(user,true)
+    let isValid=false
 
     try {
         const salt=await bcrypt.genSalt()
@@ -30,9 +36,12 @@ const {genToken}=require('../middlewares/authMiddelware')
             const result=await db.User.create({
                 username,
                 password:hashedPassword,
-                email
+                email,
+                uniqueString,
+                isValid
             });
-            res.status(201).json({msg:'result'})
+            sendMail(email,'Email Validation',uniqueString,'/test')
+            res.status(201).json({msg:'awaiting to email validation'})
         }
             
 
@@ -52,21 +61,27 @@ const loginController=async(req,res)=>{
         const user=await db.User.findOne({
             where:{
                 username:username
+            },
+            atttributes:{
+                exclude:['createdAt','updatedAt']
             }
         })
+        console.log(user)
         if(user){
             if(await bcrypt.compare(password,user.password)){
-                let token=await genToken(username)
+                let token=await genToken(user,false)
+                console.log(`user ${user.username} logged in ${new Date()}`)
+                console.log(` token generated: ${token}`)
                 res.status(200).json({token:token})
             }else{
                 res.status(401).json({res:'Wrong  password'})
             }
         }else{
-            res.status(400).json({res:'User not found'})
+            res.status(404).json({res:'User not found'})
         }
-    } catch (error) {
+    } catch (error) {    
         res.status(500).json({res:'There was a problem with the server'})
-        console.error(error.message)
+        console.error('ERROR: '+error.message)
     }
     
 
