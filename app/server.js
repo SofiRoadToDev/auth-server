@@ -4,6 +4,7 @@ const app= express()
 const cors=require('cors')
 const path=require('path')
 const authRouter=require(path.join(__dirname,'/router/auth-router.js'))
+const senEmail=require('./utils/mailer')
 
 app.use(cors())
 app.use(express.json())
