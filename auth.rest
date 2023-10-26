@@ -6,9 +6,9 @@ POST http://localhost:3001/auth/register
 content-type: application/json
 
 {
-    "username":"sofi1234",
-    "email":"sofia.rrii@gmail.com",
-    "password":"12345"
+    "username":"sofiliz898",
+    "email":"sofi.system32@gmail.com",
+    "password":"123456"
 }
 
 ###

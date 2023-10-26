@@ -1,5 +1,5 @@
 const express=require('express')
-const {registerController,testRootEndPoint,loginController,testAuth}=require('../controller/auth-controller')
+const {verifyEmail,registerController,testRootEndPoint,loginController,testAuth}=require('../controller/auth-controller')
 const {authMiddelware}=require('../middlewares/authMiddelware')
 
 const route=express.Router()
@@ -8,7 +8,7 @@ const route=express.Router()
     route.get('/test',authMiddelware,testAuth)
     route.post('/register',registerController)
     route.post('/login',loginController)
-
+    route.get('/validate/:uniqueString',verifyEmail)
 
 
 

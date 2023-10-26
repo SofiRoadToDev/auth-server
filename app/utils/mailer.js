@@ -14,8 +14,9 @@ const senEmail=(email,subject,stringKey,endpoint)=>{
         from:process.env.USER_MAIL || 'sofi.workaffairs@gmail.com',
         to:email,
         subject:subject,
-        html:`<a href="http://localhost:3000/${endpoint}/${stringKey}">verify email</a>`
+        html:endpoint !='success' ? `<a href="http://192.168.100.2:3001/auth/${endpoint}/${stringKey}">verify email</a>`:'<h3>Verification succeessfull!!</h3>'
     }
+    console.log(` link gen to validate mail: http://192.168.100.2:3001/auth/${endpoint}/${stringKey}`)
         
     transporter.sendMail(mailOptions,(err,inf)=>{
         if(err){

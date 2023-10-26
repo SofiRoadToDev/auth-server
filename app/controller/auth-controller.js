@@ -40,7 +40,7 @@ const sendMail=require('../utils/mailer')
                 uniqueString,
                 isValid
             });
-            sendMail(email,'Email Validation',uniqueString,'/test')
+            sendMail(email,'Email Validation',uniqueString,'validate')
             res.status(201).json({msg:'awaiting to email validation'})
         }
             
@@ -102,11 +102,37 @@ const testAuth=(req,res)=>{
 }
 
 
+const verifyEmail=async (req,res)=>{
+    const {uniqueString}=req.params
+    const user= await db.User.findOne({
+        where:{
+            uniqueString:uniqueString
+        },
+        atttributes:{
+            exclude:['createdAt','updatedAt']
+        }
+    })
+    if(user){
+        const res= await db.User.update(
+            {isValid:true},
+            {where:{
+                uniqueString:uniqueString
+            } }
+        )
+
+        if (res==1){
+            sendMail(user.email,'Verification successfull',null,'success')
+        }
+    }
+}
+
+
 
 module.exports={
     registerController,
     testRootEndPoint,
     loginController,
     refreshTokenController,
-    testAuth
+    testAuth,
+    verifyEmail
 }
